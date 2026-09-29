@@ -1,0 +1,12 @@
+{
+  "training_samples": 25,
+  "features_original": 1557,
+  "features_model": 312,
+  "targets": [
+    "IVOMD",
+    "IVDMD",
+    "NDF",
+    "ADF"
+  ],
+  "cv_note": "5-fold cross-validation on this very small dataset produced modest/negative R\u00b2 for some targets; therefore outputs must be labeled screening/demo predictions and not laboratory-confirmed measurements."
+}

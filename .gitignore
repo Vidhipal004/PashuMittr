@@ -1,0 +1,35 @@
+# ---- Secrets (NEVER commit) ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- Dependencies / build output ----
+node_modules/
+dist/
+build/
+.vite/
+
+# ---- Logs ----
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Python (backend/scripts/train_nir_model.py) ----
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- Hosting CLIs ----
+.vercel/
+.netlify/
+.render/.env

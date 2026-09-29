@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1040" viewBox="0 0 1200 1040">
+<rect width="1200" height="1040" fill="#F7F8F4"/>
+<text x="60" y="58" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#1F2933">PashuMittr — Farmer Feed Workflow</text>
+<text x="60" y="88" font-family="Arial,sans-serif" font-size="15" fill="#667085">TEST → UNDERSTAND → HEAR → ACT → MONITOR → PREVENT</text>
+
+<g font-family="Arial,sans-serif" text-anchor="middle">
+  <g stroke="#31552A" stroke-width="2">
+    <rect x="430" y="120" width="340" height="58" rx="12" fill="#B2D959"/>
+    <rect x="430" y="215" width="340" height="58" rx="12" fill="#FFFFFF"/>
+    <rect x="430" y="310" width="340" height="58" rx="12" fill="#FFFFFF"/>
+    <rect x="430" y="405" width="340" height="58" rx="12" fill="#FFFBEA"/>
+    <rect x="430" y="500" width="340" height="58" rx="12" fill="#FFFFFF"/>
+    <rect x="430" y="595" width="340" height="58" rx="12" fill="#FFFFFF"/>
+    <rect x="430" y="690" width="340" height="58" rx="12" fill="#FFFFFF"/>
+    <rect x="430" y="785" width="340" height="58" rx="12" fill="#FFFFFF"/>
+    <rect x="430" y="880" width="340" height="58" rx="12" fill="#7EC151"/>
+  </g>
+  <g fill="#1F2933" font-size="16">
+    <text x="600" y="156" font-weight="700" fill="#31552A">Login / Sign Up → Farmer</text>
+    <text x="600" y="251">Feed Test</text>
+    <text x="600" y="346">Camera / Upload</text>
+    <text x="600" y="441">Image Quality + Visual Screening</text>
+    <text x="600" y="536">NIR Screening</text>
+    <text x="600" y="631">Combined Evidence Engine</text>
+    <text x="600" y="726">Good / Monitor / High Risk</text>
+    <text x="600" y="821">Simple Explanation + Voice + Advisory</text>
+    <text x="600" y="916" font-weight="700" fill="#FFFFFF">Save → QR → SHA-256 → Monitor / Sync / Act</text>
+  </g>
+</g>
+
+<g stroke="#31552A" stroke-width="3" fill="none" stroke-linecap="round">
+  <path d="M600 178v37"/><path d="M600 273v37"/><path d="M600 368v37"/><path d="M600 463v37"/><path d="M600 558v37"/><path d="M600 653v37"/><path d="M600 748v37"/><path d="M600 843v37"/>
+</g>
+<g font-family="Arial,sans-serif">
+  <rect x="70" y="330" width="270" height="122" rx="14" fill="#FFFFFF" stroke="#E5E7E1"/>
+  <text x="205" y="360" font-size="16" font-weight="700" fill="#31552A">Offline branch</text>
+  <text x="90" y="389" font-size="13" fill="#667085">Network unavailable</text>
+  <text x="90" y="411" font-size="13" fill="#667085">→ Save locally</text>
+  <text x="90" y="433" font-size="13" fill="#667085">→ Queue sync</text>
+  <path d="M340 390h86" stroke="#667085" stroke-width="2.5"/>
+  <path d="M414 384l12 6-12 6" fill="none" stroke="#667085" stroke-width="2.5"/>
+</g>
+</svg>

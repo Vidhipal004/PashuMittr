@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="840" viewBox="0 0 1280 840">
+<rect width="1280" height="840" fill="#F7F8F4"/>
+<text x="56" y="58" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#1F2933">PashuMittr — System Architecture</text>
+<text x="56" y="88" font-family="Arial,sans-serif" font-size="15" fill="#667085">TEST → UNDERSTAND → HEAR → ACT → MONITOR → PREVENT</text>
+
+<g font-family="Arial,sans-serif" text-anchor="middle">
+  <rect x="440" y="120" width="400" height="72" rx="14" fill="#B2D959" stroke="#31552A"/>
+  <text x="640" y="151" font-size="18" font-weight="700" fill="#31552A">Users</text>
+  <text x="640" y="176" font-size="13" fill="#31552A">Farmer • Cooperative • Expert/Lab • Field Officer</text>
+
+  <rect x="330" y="235" width="620" height="88" rx="14" fill="#FFFFFF" stroke="#E5E7E1"/>
+  <text x="640" y="266" font-size="18" font-weight="700" fill="#1F2933">Web / Mobile / PWA</text>
+  <text x="640" y="292" font-size="13" fill="#667085">Camera • Voice • Multilingual • Accessibility • Offline queue • QR</text>
+
+  <rect x="395" y="365" width="490" height="82" rx="14" fill="#7EC151" stroke="#31552A"/>
+  <text x="640" y="396" font-size="18" font-weight="700" fill="#FFFFFF">Versioned API Gateway /api/v1</text>
+  <text x="640" y="421" font-size="13" fill="#FFFFFF">Auth • Validation • Error handling • Sync • Request IDs</text>
+
+  <rect x="72" y="500" width="250" height="105" rx="14" fill="#FFFFFF" stroke="#E5E7E1"/>
+  <text x="197" y="534" font-size="17" font-weight="700" fill="#31552A">Visual / CV</text>
+  <text x="197" y="559" font-size="13" fill="#667085">Image quality</text>
+  <text x="197" y="580" font-size="13" fill="#667085">Visual screening</text>
+
+  <rect x="400" y="500" width="250" height="105" rx="14" fill="#FFFBEA" stroke="#EED477"/>
+  <text x="525" y="534" font-size="17" font-weight="700" fill="#6B5513">NIR ML</text>
+  <text x="525" y="559" font-size="13" fill="#667085">PLS screening model</text>
+  <text x="525" y="580" font-size="13" fill="#667085">IVOMD • IVDMD • NDF • ADF</text>
+
+  <rect x="728" y="500" width="250" height="105" rx="14" fill="#FFFFFF" stroke="#E5E7E1"/>
+  <text x="853" y="534" font-size="17" font-weight="700" fill="#31552A">Silage / IoT</text>
+  <text x="853" y="559" font-size="13" fill="#667085">pH • Temperature</text>
+  <text x="853" y="580" font-size="13" fill="#667085">Humidity • Mould indicators</text>
+
+  <rect x="1020" y="500" width="190" height="105" rx="14" fill="#FFF7F7" stroke="#E8BABA"/>
+  <text x="1115" y="534" font-size="17" font-weight="700" fill="#7A2525">Trust</text>
+  <text x="1115" y="559" font-size="13" fill="#667085">QR identity</text>
+  <text x="1115" y="580" font-size="13" fill="#667085">SHA-256 audit hash</text>
+
+  <rect x="300" y="660" width="680" height="90" rx="14" fill="#FFFFFF" stroke="#E5E7E1"/>
+  <text x="640" y="693" font-size="18" font-weight="700" fill="#1F2933">Combined Evidence + Advisory</text>
+  <text x="640" y="720" font-size="13" fill="#667085">Good • Monitor • High Risk screening status + next action + confirmatory-testing guidance</text>
+</g>
+
+<g stroke="#31552A" stroke-width="3" fill="none" stroke-linecap="round">
+  <path d="M640 192v43"/><path d="M640 323v42"/>
+  <path d="M500 447v52"/><path d="M640 447v52"/><path d="M820 447v52"/><path d="M940 447v52"/>
+  <path d="M197 605v35h918"/><path d="M525 605v35"/><path d="M853 605v35"/><path d="M1115 605v35"/>
+</g>
+<circle cx="640" cy="345" r="5" fill="#FED24F"/>
+</svg>
