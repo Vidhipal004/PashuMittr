@@ -126,25 +126,3 @@ Interactive QR scan/verify, cooperative alert investigation, village details, ex
 
 ## Demo/reference dataset
 `GET /api/v1/demo/feed-samples` returns the five supplied F001–F005 reference records used only for demo scenario context. These records are deliberately separate from the NIR model training data.
-
-## Authentication (Twilio Verify)
-
-```text
-GET  /api/v1/auth/status
-POST /api/v1/auth/request-otp
-POST /api/v1/auth/login
-```
-
-`request-otp` accepts a 10-digit Indian mobile number and starts a Twilio Verify SMS when `AUTH_PROVIDER=twilio`. `login` submits the 6-digit code to Twilio Verify for approval. Twilio credentials remain server-side in `backend/.env`.
-
-For local UI-only testing, `AUTH_PROVIDER=demo` enables the explicit demo OTP path. Do not use demo mode for a real deployment.
-
-## Voice providers
-
-```text
-GET  /api/v1/voice/status
-POST /api/v1/voice/tts
-POST /api/v1/voice/asr
-```
-
-When configured, ElevenLabs is attempted first for TTS and STT, followed by BHASHINI/Google/browser fallbacks depending on the capability. ElevenLabs keys remain server-side.

@@ -1,4 +1,4 @@
-# PashuMittr Hackathon v26
+# PashuMittr Hackathon v24
 
 **Test. Understand. Act.**
 
@@ -6,7 +6,7 @@ PashuMittr is an AI-assisted feed and silage quality screening prototype for Ind
 
 ## Run on Windows / VS Code
 
-1. Extract the ZIP and open the inner `PashuMittr_Hackathon_v27` folder in VS Code.
+1. Extract the ZIP and open the inner `PashuMittr_Hackathon_v24` folder in VS Code.
 2. Copy `backend/.env.example` to `backend/.env`.
 3. Put your real Gemini key in:
 
@@ -37,16 +37,7 @@ npm run dev
 
 **Restart the backend after changing `.env`.** The backend now loads `backend/.env` automatically.
 
-Authentication: PashuMittr uses **Twilio Verify SMS** when `AUTH_PROVIDER=twilio`. Set `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID` in `backend/.env`, then restart the backend. Twilio Verify handles OTP generation, delivery and code verification; PashuMittr does not store the SMS code in Twilio mode. For local-only UI testing, set `AUTH_PROVIDER=demo` and use `DEMO_OTP`.
-
-### Twilio setup
-
-1. In Twilio Console, create a **Verify Service** and copy its `VA...` Service SID.
-2. Put your Account SID, Auth Token and Verify Service SID into `backend/.env`.
-3. Keep `AUTH_PROVIDER=twilio` and restart `node server.js`.
-4. The login screen now calls Twilio to send the SMS and Twilio to verify the entered code.
-
-> Twilio trial accounts can require destination numbers to be verified before SMS/voice/WhatsApp delivery.
+Demo login: any 10-digit mobile number + OTP `123456`.
 
 
 ## First-use guide & errors
@@ -88,18 +79,3 @@ From `backend/`:
 ```text
 node validate-nir.js
 ```
-
-## Voice provider configuration
-
-PashuMittr uses **ElevenLabs first** for server-side text-to-speech and speech-to-text when `ELEVENLABS_API_KEY` is configured. The default voice ID is `JBFqnCBsd6RMkjVDRZzb` and can be replaced with your preferred ElevenLabs voice. Browser speech and BHASHINI remain fallbacks. Tutorial narration uses the same voice pipeline, so changing the tutorial language changes the narration language/content.
-
-## OTP authentication with Twilio
-
-PashuMittr now uses **Twilio Verify SMS** by default. Set `AUTH_PROVIDER=twilio`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID` in `backend/.env`. The frontend shows a Twilio-specific status and never displays the SMS code. For a local mock/demo only, set `AUTH_PROVIDER=demo`; this is not the real SMS flow.
-
-
-### Judge OTP demo
-Use mobile `0000000000` and OTP `123456` for the judge demo. This special demo path never sends an SMS and does not require a real judge phone number. Real numbers continue through Twilio Verify when configured.
-
-## Gemini assistant troubleshooting
-If the browser console shows `/api/v1/assistant/chat` with HTTP 503, the backend is running but Gemini credentials are missing or rejected. Set `GEMINI_API_KEY` in `backend/.env`, keep `GEMINI_MODEL=gemini-3.8-flash`, restart the backend, and retry. HTTP 429 means Gemini is temporarily rate-limited.

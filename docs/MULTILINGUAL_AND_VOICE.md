@@ -16,19 +16,24 @@ The DOM bridge has an English canonical dictionary and reverse mapping, so switc
 
 ## Voice
 
-Primary server-side TTS path:
+Primary TTS path:
 
-`PashuMittr -> /api/v1/voice/tts -> ElevenLabs`
+`PashuMittr -> /api/v1/voice/tts -> Google Cloud Text-to-Speech`
 
-Primary recorded-voice STT path:
+Fallback path:
 
-`PashuMittr -> /api/v1/voice/asr -> ElevenLabs Scribe`
+`PashuMittr -> browser SpeechSynthesis`
 
-Fallbacks remain BHASHINI/Google/browser depending on capability and configuration. The frontend keeps Play / Pause / Resume / Stop / Listen-again controls. ElevenLabs keys stay server-side in `backend/.env`.
+The frontend keeps Play / Pause / Resume / Stop / Listen-again controls for both paths.
 
-## Tutorial language
+Google Cloud TTS is optional. Configure either:
 
-The first-use tutorial has its own language picker, separate from the main navigation picker. Switching languages immediately changes the tutorial title, step text, controls and narration. The same 12-language catalog is used so a farmer can switch the tutorial into a familiar language before proceeding.
+- `GOOGLE_CLOUD_TTS_API_KEY`, or
+- `GOOGLE_CLOUD_ACCESS_TOKEN`
+
+The backend returns `google_tts_configured` from `/api/v1/voice/status`.
+
+Official Google Cloud docs use the `text:synthesize` endpoint and return base64-encoded audio in `audioContent`. PashuMittr converts that response to an MP3 Blob for browser playback.
 
 ## Voice locale map
 
@@ -51,7 +56,7 @@ Google Cloud currently documents broad Indian-locale support for Chirp 3 HD voic
 
 ## Voice input
 
-When ElevenLabs STT is configured, the recorded browser audio is sent to `/api/v1/voice/asr` and transcribed server-side. Browser SpeechRecognition remains the fast fallback for browsers that support it.
+The current voice-input demo continues to use the browser SpeechRecognition API. Google Cloud STT can be added later as a server-side `/api/v1/voice/transcribe` path without changing the UI contract.
 
 
 ## BHASHINI v10 adapter

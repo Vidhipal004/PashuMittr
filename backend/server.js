@@ -169,10 +169,10 @@ async function geminiText(prompt, {preferFast=false}={}){
   const {apiKey,model,assistantModel,fallbackModels}=geminiConfig();
   if(!apiKey) return null;
   const preferred = preferFast ? assistantModel : model;
-  const models=[preferred,model,...fallbackModels].filter((m,i,a)=>m && a.indexOf(m)===i);
-  const PER_MODEL_MS=Number(process.env.GEMINI_REQUEST_TIMEOUT_MS || 9000);
-  const HEDGE_MS=Number(process.env.GEMINI_HEDGE_MS || 2500);
-  const DEADLINE_MS=Number(process.env.GEMINI_TOTAL_TIMEOUT_MS || 28000);
+  const models=[preferred,model,...fallbackModels].filter((m,i,a)=>m && a.indexOf(m)===i).slice(0,2);
+  const PER_MODEL_MS=Number(process.env.GEMINI_REQUEST_TIMEOUT_MS || 5000);
+  const HEDGE_MS=Number(process.env.GEMINI_HEDGE_MS || 1400);
+  const DEADLINE_MS=Number(process.env.GEMINI_TOTAL_TIMEOUT_MS || 7000);
   const master=new AbortController();
 
   return await new Promise((resolve,reject)=>{
@@ -372,7 +372,7 @@ async function assess({visual={}, nir={}, silage={}, storage={}, lang='English'}
       `Base advisory: ${rules.advisory}`
     ].join('\n');
     const answer=await geminiText(prompt);
-    if(answer){ farmer_explanation=answer; gemini_used=true; }
+    if(answer){ farmer_explanation=answer.text||answer; gemini_used=true; }
   }catch(_err){
     // Keep deterministic rule advisory if Gemini is unavailable.
   }
@@ -381,7 +381,8 @@ async function assess({visual={}, nir={}, silage={}, storage={}, lang='English'}
 
 function verifyRecord(test) {
   const previous_hash = hashes.length ? hashes[hashes.length-1].current_hash : null;
-  const canonical = JSON.stringify({ id:test.id, type:test.type, created_at:test.created_at, visual:test.visual, nir:test.nir, silage:test.silage, assessment:test.assessment, previous_hash });
+  const stableAssessment=test.assessment?{...test.assessment,farmer_explanation:undefined,gemini:undefined}:null;
+  const canonical = JSON.stringify({ id:test.id, type:test.type, created_at:test.created_at, visual:test.visual, nir:test.nir, silage:test.silage, assessment:stableAssessment, previous_hash });
   const current_hash = crypto.createHash('sha256').update(canonical).digest('hex');
   hashes.push({ test_id:test.id, previous_hash, current_hash });
   test.integrity={ verified:true, algorithm:'SHA-256', previous_hash, current_hash };
@@ -648,8 +649,52 @@ async function route(req) {
       }
       if (method==='POST' && action==='assess') {
         const body=await readJson(req);
-        test.assessment=await assess({visual:body.visual||test.visual||{},nir:body.nir||test.nir||{},silage:body.silage||test.silage||{},storage:body.storage||test.storage_environment||{},lang:body.lang||'English'});
+        const visual=body.visual||test.visual||{};
+        const nir=body.nir||test.nir||{};
+        const silage=body.silage||test.silage||{};
+        const storage=body.storage||test.storage_environment||{};
+        const lang=body.lang||'English';
+        const rules=ruleBasedAssessment({visual,nir,silage,storage});
+        const geminiConfigured=Boolean(geminiConfig().apiKey);
+        test.assessment={
+          ...rules,
+          farmer_explanation:rules.advisory,
+          gemini:{configured:geminiConfigured,used:false,pending:geminiConfigured,model:geminiConfig().model}
+        };
         test.status='assessed';
+
+        // Never block the screening result on cloud AI. Gemini only improves the
+        // farmer-facing wording after the deterministic result is already ready.
+        if(geminiConfigured){
+          const prompt=[
+            'You are PashuMittr, an Indian dairy feed/silage assistant.',
+            'Use ONLY the supplied rule-engine facts below. Do not invent measurements, diagnoses, contamination, toxins, laboratory results, or safety claims.',
+            'The rule engine remains authoritative for status and actions.',
+            `Write one short farmer-friendly explanation in ${lang} using simple language.`,
+            'Mention confirmatory testing when the supplied rules recommend it.',
+            `Status: ${rules.screening_status}`,
+            `Evidence score: ${rules.evidence_score}`,
+            `Rule reasons: ${rules.rule_reasons.join(' | ')||'none'}`,
+            `Recommended actions: ${rules.actions.join(' | ')}`,
+            `Storage environment: ${JSON.stringify(storage||{})}`,
+            `Base advisory: ${rules.advisory}`
+          ].join('\n');
+          Promise.resolve().then(async()=>{
+            try{
+              const answer=await geminiText(prompt,{preferFast:false});
+              const current=tests.get(id);
+              if(current && answer?.text){
+                current.ai_explanation=answer.text;
+                current.ai_explanation_model=answer.model;
+                if(current.assessment) current.assessment.gemini={configured:true,used:true,pending:false,model:answer.model};
+              }
+            }catch(err){
+              const current=tests.get(id);
+              if(current?.assessment) current.assessment.gemini={configured:true,used:false,pending:false,model:geminiConfig().model};
+              if(DEBUG_LOGS) logWarn('[Assessment] Gemini explanation unavailable', {test_id:id,code:err?.code,status:err?.status,message:err?.message});
+            }
+          });
+        }
         return json(200,ok({test_id:id,assessment:test.assessment}));
       }
       if (method==='POST' && action==='verify') {
